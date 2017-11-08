@@ -1,41 +1,46 @@
 #include <cstdio>
 #include <algorithm>
-#include <vector>
+#include <queue>
 using namespace std;
 
 int N, K;
 
-void findPath (int x, int time, int& ans) {
-  if (x < 0)
-    return;
+int findPath () {
+  if (N == K)
+    return 0;
 
-  if (x == N && time != 0)
-    return;
+  int visited[100001] = {0, };
+  queue<int> q;
+  q.push(N);
+  visited[N] = 1;
 
-  if (ans <= time)
-    return;
+  int x;
+  while (!q.empty()) {
+    x = q.front();
+    q.pop();
 
-  if (x == K) {
-    ans = time;
-    return;
-  }
+    if (x == K)
+      return visited[x] - 1;
 
-  time++;
+    if (x-1 >= 0 && visited[x-1]==0) {
+      q.push(x-1);
+      visited[x-1] = visited[x] + 1;
+    }
 
-  vector<int> v(3);
-  v[0] = x-1;
-  v[1] = x+1;
-  v[2] = x*2;
-  for (auto& xx : v) {
-    findPath (xx, time, ans);
+    if (x+1 <= 100000 && visited[x+1]==0) {
+      q.push(x+1);
+      visited[x+1] = visited[x] + 1;
+    }
+
+    if (x*2 <= 100000 && visited[x*2]==0) {
+      q.push(x*2);
+      visited[x*2] = visited[x] + 1;
+    }
   }
 }
 
 int main() {
   scanf(" %d %d", &N, &K);
 
-  int ans = abs(N-K);
-  findPath (N, 0, ans);
-
-  printf("%d\n", ans);
+  printf("%d\n", findPath());
 }
