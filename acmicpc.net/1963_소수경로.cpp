@@ -3,8 +3,8 @@
 #include <vector>
 #include <queue>
 
-#include <thread>
-#include <chrono>
+//#include <thread>
+//#include <chrono>
 using namespace std;
 
 vector<int> prime, ans;
@@ -38,14 +38,6 @@ int getStepToMove(const int cur, const int target) {
   findPrime(prime);
   prime_size = prime.size();
 
-  int pos = 0;
-  for (int i=0; i<prime_size; i++) {
-    if (prime[i] == cur) {
-      pos = i + 1;
-      break;
-    }
-  }
-
   queue<int> q;
   q.push(cur);
   vector<int> curV(4), nextV(4);
@@ -64,7 +56,7 @@ int getStepToMove(const int cur, const int target) {
       curV[2] = num%100/10;
       curV[3] = num%10;
 
-      for (int i=pos; i<prime_size; i++) {
+      for (int i=0; i<prime_size; i++) {
         if (prime[i] == 0)
           continue;
 
@@ -94,6 +86,7 @@ int getStepToMove(const int cur, const int target) {
     // printf("\n");
     // this_thread::sleep_for(chrono::milliseconds(300));
   }
+  return -1;
 }
 
 int main() {
@@ -110,8 +103,11 @@ int main() {
     ans.push_back(getStepToMove(old_pw, new_pw));
   }
 
-  for (auto& e : ans)
-    printf("%d\n", e);
-
+  for (auto& e : ans) {
+    if (e == -1)
+      printf("Impossible\n");
+    else
+      printf("%d\n", e);
+  }
   return 0;
 }
