@@ -4,48 +4,75 @@
 #include <bitset>
 using namespace std;
 
+inline void swap (int& a, int &b) {
+  int temp = a;
+  a = b;
+  b = temp;
+}
+
 int getShortestMove(array<int, 9>& a) {
-  int ans = -1, pos;
-  bitset<9> visited("000000000");
-  bitset<9> puzzle("111111111");
-  queue<int> q;
+  int ans = 0;
+  array<int, 9> goal = {1, 2, 3, 4, 5, 6, 7, 8, 0};
+  if (goal == a)
+    return 0;
+
+  queue<pair<int, array<int, 9>>> q;
   for (int i=0; i<9; i++) {
     if (a[i] == 0) {
-      q.push(i);
-      visited.set(i);
-      puzzle.set(i, 0);
+      q.push(make_pair(i, a));
       break;
     }
   }
 
-  int q_size, down, right;
+  int q_size, x, y, up, down, left, right;
+  array<int, 9> puzzle;
   while (!q.empty()) {
     q_size = q.size();
-    // printf("q_size=%d\n", q_size);
     ans++;
     while (q_size--) {
-      pos = q.front();
+      pair<int, array<int, 9>> p = q.front();
       q.pop();
+      x = p.first/3;
+      y = p.first%3;
+      puzzle = p.second;
 
-      down = 3*(pos/3+1) + pos%3;
-      right = 3*(pos/3) + (pos%3 + 1);
+      up = 3*(x-1) + y;
+      down = 3*(x+1) + y;
+      left = 3*x + (y-1);
+      right = 3*x + (y+1);
 
-      // printf("pos=%d, down=%d, right=%d\n", pos, down, right);
-      if (down == 9 || right == 9)
-        return ans;
-
-      if ((pos/3+1) < 3 && visited.test(down)==0) {
-        q.push(down);
-        visited.set(down);
+      if ((x-1) >= 0) {
+        array<int, 9> puz = puzzle;
+        swap (puz[p.first], puz[up]);
+        q.push(make_pair(up, puz));
+        if (goal==puz)
+          return ans;
       }
-      if ((pos%3+1) < 3 && visited.test(right)==0) {
-        q.push(right);
-        visited.set(right);
+      if ((x+1) < 3) {
+        array<int, 9> puz = puzzle;
+        swap (puz[p.first], puz[down]);
+        q.push(make_pair(down, puz));
+        if (goal==puz)
+          return ans;
+      }
+      if ((y-1) >= 0) {
+        array<int, 9> puz = puzzle;
+        swap (puz[p.first], puz[left]);
+        q.push(make_pair(left, puz));
+        if (goal==puz)
+          return ans;
+      }
+      if ((y+1) < 3) {
+        array<int, 9> puz = puzzle;
+        swap (puz[p.first], puz[right]);
+        q.push(make_pair(right, puz));
+        if (goal==puz)
+          return ans;
       }
     }
   }
 
-  return ans;
+  return -1;
 }
 
 int main() {
