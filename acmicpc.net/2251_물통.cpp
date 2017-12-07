@@ -2,7 +2,7 @@
 using namespace std;
 
 int aa, bb, cc;
-bool ans[201];
+bool ans[201] = {false, };
 bool isVisited[201][201] = {false, };
 
 void dfs (int a, int b, int c) {
@@ -19,21 +19,19 @@ void dfs (int a, int b, int c) {
     dfs (a-(bb-b), bb, c);
   else
     dfs (0, a+b, c);
-  // a->c
-  if (a+c > cc)
-    dfs (a-(cc-c), b, cc);
-  else
-    dfs (0, b, a+c);
+
+  // a->c (c는 항상 a보다 크다)
+  dfs (0, b, a+c);
+
   // b->a
   if (b+a > aa)
     dfs (aa, b-(aa-a), c);
   else
     dfs (b+a, 0, c);
-  // b->c
-  if (b+c > cc)
-    dfs (a, b-(cc-c), cc);
-  else
-    dfs (a, 0, b+c);
+
+  // b->c (c는 항상 b보다 크다)
+  dfs (a, 0, b+c);
+
   // c->a
   if (c+a > aa)
     dfs (aa, b, c-(aa-a));
@@ -51,7 +49,7 @@ int main() {
 
   dfs (0, 0, cc);
 
-  for (int i=1; i<201; i++) {
+  for (int i=0; i<201; i++) {
     if (ans[i])
       printf("%d ", i);
   }
