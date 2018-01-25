@@ -1,9 +1,10 @@
+#if 0
 #include <cstdio>
 #include <stack>
 #include <vector>
 using namespace std;
 
-#define SIZE (100001)
+#define SIZE (100010)
 
 int main() {
   stack<char> s;
@@ -35,10 +36,40 @@ int main() {
         laser.pop_back();
         // printf("\n\n --- stick = %d\n", stick);
       }
-    }
+
+      }
     prev = ch;
   } while (ch != '\n');
 
   printf("%d\n", stick);
   return 0;
 }
+#endif
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+int main(){
+  string input;
+  stack<char> s;
+  int result = 0;
+
+  cin >> input;
+
+  for(int i = 0; i < input.size(); i++) {
+    if(input[i] == '(')
+      s.push(input[i]);
+    else{
+      s.pop();
+      if(input[i-1] == '(')
+        result += s.size(); //스택의 사이즈만큼 더해준다.
+      else
+        result += 1;    //1을 더해준다.
+    }
+  }
+  cout << result << endl;
+  return 0;
+}
+
