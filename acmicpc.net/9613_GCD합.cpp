@@ -3,14 +3,11 @@
 using namespace std;
 
 int gcd (int a, int b) {
-  if (a==0)
-    return b;
-
-  int c;
+  int tmp;
   do {
-    c = b % a;
+    tmp = b % a;
     b = a;
-    a = c;
+    a = tmp;
   } while (a!=0);
 
   return b;
@@ -19,28 +16,26 @@ int gcd (int a, int b) {
 int main() {
   int t;
   char c;
-  vector<char> num;
+  int num[100];
   vector<int> sum;
 
   scanf (" %d", &t);
   getchar(); // to get '\n' following 't'
   while (t--) {
-    do {
-      c = getchar();
-      if (c != ' ' && c != '\n')
-        num.push_back(c);
-    } while (c != '\n');
+    int size;
+    scanf (" %d", &size);
+    for (int s=0; s<size; s++) {
+      scanf (" %d", &num[s]);
+    }
 
     int s = 0;
-    int num_size = num.size();
-    for (int i=0; i<num_size-1; i++) {
-      for (int j=i+1; j<num_size; j++) {
+    for (int i=0; i<size-1; i++) {
+      for (int j=i+1; j<size; j++) {
         s += gcd (min(num[i], num[j]), max(num[i], num[j]));
       }
     }
 
     sum.push_back(s);
-    num.clear();
   }
 
   for (auto e : sum)
