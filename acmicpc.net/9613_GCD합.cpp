@@ -16,11 +16,10 @@ int gcd (int a, int b) {
 int main() {
   int t;
   char c;
-  int num[100];
-  vector<int> sum;
+  int num[101];
+  vector<long long int> sum;
 
   scanf (" %d", &t);
-  getchar(); // to get '\n' following 't'
   while (t--) {
     int size;
     scanf (" %d", &size);
@@ -28,7 +27,7 @@ int main() {
       scanf (" %d", &num[s]);
     }
 
-    int s = 0;
+    long long int s = 0;
     for (int i=0; i<size-1; i++) {
       for (int j=i+1; j<size; j++) {
         s += gcd (min(num[i], num[j]), max(num[i], num[j]));
@@ -39,6 +38,6 @@ int main() {
   }
 
   for (auto e : sum)
-    printf("%d\n", e);
+    printf("%lld\n", e);
   return 0;
 }
