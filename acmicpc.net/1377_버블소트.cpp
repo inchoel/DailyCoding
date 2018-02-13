@@ -1,33 +1,27 @@
 #include <cstdio>
-#include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
-#define ARR_MAX_SIZE (500001)
-
 int main() {
-  int a[ARR_MAX_SIZE];
   int n;
-  scanf (" %d", &n);
+  scanf(" %d", &n);
 
-  for (int k=1; k<=n; k++)
-    scanf (" %d", &a[k]);
-
-  bool change = false;
-  int i;
-  for (i=1; i<=n+1; i++) {
-    change = false;
-    for (int j=1; j<=n-i; j++) {
-      if (a[j] > a[j+1]) {
-        change = true;
-        swap(a[j], a[j+1]);
-      }
-    }
-    if (change == false) {
-      break;
-    }
+  vector<pair<int, int>> a(n);
+  for (int i=0; i<n; i++) {
+    scanf (" %d", &(a[i].first));
+    a[i].second = i;
   }
-  cout << i << '\n';
+
+  sort (a.begin(), a.end());
+
+  int ans = 0;
+  for (int i=0; i<n; i++) {
+    if (ans < a[i].second - i)
+      ans = a[i].second - i;
+  }
+
+  printf("%d\n", ans+1);
 
   return 0;
 }
