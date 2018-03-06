@@ -1,3 +1,70 @@
+#if 1
+#include <cstdio>
+#include <algorithm>
+#include <utility>
+#include <vector>
+using namespace std;
+
+#define ROOT (1)
+
+int n;
+vector<pair<int, int>> v;
+
+bool isConnectedRoot(const int node) {
+  int n1, n2;
+  for (int i=0; i<n-1; i++) {
+    n1 = v[i].first;
+    n2 = v[i].second;
+    if (n1 == node) {
+      if (n2 == ROOT)
+        return true;
+      else
+        return isConnectedRoot(n2);
+    }
+    else if (n2 == node) {
+      if (n1 == ROOT)
+        return true;
+      else
+        return isConnectedRoot(n1);
+    }
+  }
+  return false;
+}
+
+int findParent(const int node) {
+  int n1, n2;
+  for (int i=0; i<n-1; i++) {
+    n1 = v[i].first;
+    n2 = v[i].second;
+
+    if (n1 == node) {
+      if (isConnectedRoot(n2))
+        return n2;
+    }
+    else if (n2 == node) {
+      if (isConnectedRoot(n1))
+        return n1;
+    }
+  }
+  return -1;
+}
+
+int main(void) {
+  scanf (" %d", &n);
+
+  int a, b;
+  for (int i=0; i<n-1; i++) {
+    scanf (" %d %d", &a, &b);
+    v.push_back (make_pair(a, b));
+  }
+
+  for (int i=2; i<=n; i++)
+    printf("%d\n", findParent(i));
+
+  return 0;
+}
+
+#else
 #include <cstdio>
 #include <algorithm>
 #include <utility>
@@ -58,3 +125,4 @@ int main(void) {
 
   return 0;
 }
+#endif
