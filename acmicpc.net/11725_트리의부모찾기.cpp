@@ -1,4 +1,49 @@
-#if 1
+#include <cstdio>
+#include <vector>
+#include <queue>
+using namespace std;
+
+vector<int> tree[100005];
+queue<int> q;
+int parent[100005];
+
+void bfs(const int root) {
+  q.push (root);
+  parent[root] = 1;
+
+  int next;
+  while (!q.empty()) {
+    next = q.front();
+    q.pop();
+
+    for (auto i : tree[next]) {
+      if (!parent[i]) {
+        q.push (i);
+        parent[i] = next;
+      }
+    }
+  }
+}
+
+int main() {
+  int n;
+  scanf (" %d", &n);
+
+  int from, to;
+  for (int i=0; i<n-1; i++) {
+    scanf (" %d %d", &from, &to);
+    tree[from].push_back(to);
+    tree[to].push_back(from);
+  }
+
+  bfs(1);
+  for (int i=2; i<=n; i++)
+    printf("%d\n", parent[i]);
+
+  return 0;
+}
+
+#if 0  // 시간초과
 #include <cstdio>
 #include <algorithm>
 #include <utility>
@@ -63,8 +108,9 @@ int main(void) {
 
   return 0;
 }
+#endif
 
-#else
+#if 0 // 메모리 초과
 #include <cstdio>
 #include <algorithm>
 #include <utility>
