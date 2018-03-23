@@ -10,7 +10,7 @@ int aptNumber(const int i, const int j, int cnt) {
   if (i<0 || j<0)
     return cnt;
 
-  if (apt[i][j] == 0)
+  if (apt[i][j]==0)
     return cnt;
 
   cnt++;
@@ -45,6 +45,7 @@ int main(void) {
   }
 
   printf("%d\n", ans.size());
+  sort (ans.begin(), ans.end());
   for (auto e : ans)
     printf("%d\n", e);
 
