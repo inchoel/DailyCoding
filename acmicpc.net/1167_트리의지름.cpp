@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <utility>
 #include <vector>
+#include <stack>
+#include <array>
 
 #define SIZE (100001)
 using namespace std;
@@ -9,22 +11,60 @@ using namespace std;
 int V;
 vector<pair<int, int>> a[SIZE];
 
-int dfs (int root) {
+int dfs (int v) {
+  int sum=0, max=0;
+  stack<pair<int, int>> s;
+  s.push(a[v][0]);
+  array<bool, SIZE> isVisited;
+  isVisited.fill(false);
+  isVisited[v] = true;
+
+  int vtx, dist;
+  pair<int, int> tmp;
+  do {
+    tmp = s.top();
+    vtx = tmp.first;
+    dist = tmp.second;
+    if (isVisited[vtx]==false) {
+      sum += dist;
+      isVisited[vtx] = true;
+    }
+    // printf("v:%d d:%d s:%d\n", vtx, dist, sum);
+
+    size_t i;
+    for (i=0; i<a[vtx].size(); i++) {
+      if (isVisited[a[vtx][i].first])
+        continue;
+
+      s.push (a[vtx][i]);
+      break;
+    }
+
+    if (i==a[vtx].size()) {
+      if (sum > max)
+        max = sum;
+
+      s.pop();
+      sum -= dist;
+    }
+  } while (!s.empty());
+
+  return max;
 }
 
 int getDiameter(void) {
   int diameter = 0;
-  vector<int> end;
+  vector<int> endv;
   for (int i=1; i<=V; i++) {
     if (a[i].size() == 1)
-      end.push_back(i);
+      endv.push_back(i);
   }
 
-  int sum_dist=0;
-  for (auto e : end) {
-    sum_dist = dfs (e);
-    if (diameter < sum_dist)
-      diameter = sum_dist;
+  int max=0;
+  for (auto e : endv) {
+    max = dfs (e);
+    if (diameter < max)
+      diameter = max;
   }
 
   return diameter;
