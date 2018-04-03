@@ -11,14 +11,14 @@ using namespace std;
 int V;
 vector<pair<int, int>> a[SIZE];
 
-int dfs (int v) {
+int dfs (int& v) {
   int sum=0, max=0;
   stack<pair<int, int>> s;
-  s.push(a[v][0]);
+  s.push(make_pair(v, 0));
   array<bool, SIZE> isVisited;
   isVisited.fill(false);
-  isVisited[v] = true;
 
+  // printf("root: %d\n", v);
   int vtx, dist;
   pair<int, int> tmp;
   do {
@@ -41,11 +41,12 @@ int dfs (int v) {
     }
 
     if (i==a[vtx].size()) {
-      if (sum > max)
+      if (sum > max) {
         max = sum;
-
-      s.pop();
+        v = vtx;
+      }
       sum -= dist;
+      s.pop();
     }
   } while (!s.empty());
 
@@ -53,21 +54,10 @@ int dfs (int v) {
 }
 
 int getDiameter(void) {
-  int diameter = 0;
-  vector<int> endv;
-  for (int i=1; i<=V; i++) {
-    if (a[i].size() == 1)
-      endv.push_back(i);
-  }
+  int root = a[1][0].first; // 임의의 정점
+  dfs (root);
 
-  int max=0;
-  for (auto e : endv) {
-    max = dfs (e);
-    if (diameter < max)
-      diameter = max;
-  }
-
-  return diameter;
+  return dfs(root);
 }
 
 int main(void) {
