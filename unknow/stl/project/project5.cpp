@@ -35,11 +35,14 @@ public:
     for (auto t: v) {
       tie(h, priority, use_thread) = t;
 
-      if (use_thread == true)
-        // thread t(&h, param);
-        cout << "-- make thread -- " << endl;
-      else
+      if (use_thread == true) {
+        thread t1(h, param);
+        t1.join();
+        // t1.detach();
+      }
+      else {
         h(param);
+      }
     }
   }
 };
