@@ -1,4 +1,54 @@
 #include <cstdio>
+#include <algorithm>
+#include <list>
+using namespace std;
+
+int N;
+int tower;
+list<int> sl;
+
+void show() {
+  for (auto e: sl)
+    printf("%d ", e);
+  printf("\n");
+}
+
+int main() {
+  scanf (" %d", &N);
+
+  int in;
+  for (int i=0; i<N; i++) {
+    scanf (" %d", &in);
+    sl.emplace_back(in);
+  }
+  sl.sort();
+  // show();
+
+  int stack, n;
+  while (!sl.empty()) {
+    stack = 0;
+    for (auto it=sl.begin(); it!=sl.end(); it++) {
+      n = *it;
+      if (n >= stack) {
+        stack++;
+        it = sl.erase(it);
+        it--;
+        // printf("%d ", n);
+      }
+    }
+    // printf("\n");
+
+    tower++;
+  }
+
+  printf("%d\n", tower);
+
+  return 0;
+}
+
+
+#if 0
+#include <cstdio>
 #include <functional>
 #include <algorithm>
 #include <limits>
@@ -8,7 +58,6 @@ using namespace std;
 int N;
 vector<int> v;
 
-// 탑의 높이가 우선되며, 높이가 같은 경우 총합이 작은 것을 선택하자.
 int main() {
 	scanf (" %d", &N);
 	v.resize(N);
@@ -115,5 +164,5 @@ int main() {
 	return 0;
 }
 */
-
+#endif
 
