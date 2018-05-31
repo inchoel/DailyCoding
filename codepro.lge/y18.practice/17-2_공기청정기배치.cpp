@@ -5,10 +5,10 @@ using namespace std;
 
 int H, W;
 int v[50][50];
+int vv[50][50];
 bool isVisited[50][50];
 int area;
 int count;
-int max_count;
 
 void InputData() {
   scanf (" %d", &H);
@@ -32,25 +32,21 @@ void findOpen(pair<int,int> wall, queue<pair<int,int>>& q) {
       case 1:
         if (isVisited[wall.first][wall.second-1] == false) {
           q.push(make_pair(wall.first, wall.second-1));
-          count++;
         }
         break;
       case 2:
         if (isVisited[wall.first-1][wall.second] == false) {
           q.push(make_pair(wall.first-1, wall.second));
-          count++;
         }
         break;
       case 4:
         if (isVisited[wall.first][wall.second+1] == false) {
           q.push(make_pair(wall.first, wall.second+1));
-          count++;
         }
         break;
       case 8:
         if (isVisited[wall.first+1][wall.second] == false) {
           q.push(make_pair(wall.first+1, wall.second));
-          count++;
         }
         break;
     }
@@ -64,27 +60,33 @@ int main() {
       if (isVisited[i][j])
         continue;
 
-      count = 0;
       queue<pair<int,int>> q;
       q.push(make_pair(i, j));
-      count++;
 
       while (!q.empty()) {
         pair<int, int> p = q.front();
         q.pop();
         isVisited[p.first][p.second] = true;
-
+        vv[p.first][p.second] = area;
         findOpen(p, q);
-
       }
-
-      if (max_count < count)
-        max_count = count;
       area++;
     }
   }
 
+  vector<int> cnt(area+1);
+  for (int i=0; i<H; i++) {
+    for (int j=0; j<W; j++) {
+      cnt[vv[i][j]]++; 
+    }
+  }
+
+  for (int i=0; i<=area; i++) {
+    if (count < cnt[i])
+      count = cnt[i];
+  }
+
   printf("%d\n", area);
-  printf("%d\n", max_count);
+  printf("%d\n", count);
   return 0;
 }
