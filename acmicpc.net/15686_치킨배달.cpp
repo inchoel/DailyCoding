@@ -8,18 +8,24 @@ int c[50][50];
 int min_dist = numeric_limits<int>::max();
 
 int get_distance(const vector<pair<int, int>>& stores) {
-  int s_x = 0;
-  int s_y = 0;
+  int dist = 0;
 
   for (int i=0; i<N; i++) {
     for (int  j=0; j<N; j++) {
       if (c[i][j] == 1) {
-        // 가정집에서 치킨집들과의 거리비교하여 작은 것을 취한다.
-        // 이후에 이를 누적하면 선택된 치킨집에 대한 최단거리가 나온다.
+        int min_local = numeric_limits<int>::max();
+        for (auto s : stores) {
+          printf("cs(%d, %d), house(%d, %d)\n", s.first, s.second, i, j);
+          int tmp = abs(s.first - i) + abs(s.second - j);
+          if (min_local > tmp)
+            min_local = tmp;
+        }
+        dist += min_local;
       }
     }
   }
 
+  return dist;
 }
 
 int main(void) {
@@ -39,6 +45,10 @@ int main(void) {
   for (int i=0; i<M; i++)
     ind[i] = 1;
   sort (ind.begin(), ind.end());
+  printf("--------- ind ========\n");
+  for (auto e : ind)
+    printf("%d ", e);
+  printf("\n");
 
   do {
     int dist = 0;
