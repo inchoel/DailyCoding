@@ -15,10 +15,10 @@ int get_distance(const vector<pair<int, int>>& stores) {
       if (c[i][j] == 1) {
         int min_local = numeric_limits<int>::max();
         for (auto s : stores) {
-          printf("cs(%d, %d), house(%d, %d)\n", s.first, s.second, i, j);
           int tmp = abs(s.first - i) + abs(s.second - j);
           if (min_local > tmp)
             min_local = tmp;
+          // printf("cs(%d, %d), house(%d, %d) : tmpDist=%d\n", s.first, s.second, i, j, tmp);
         }
         dist += min_local;
       }
@@ -45,15 +45,20 @@ int main(void) {
   for (int i=0; i<M; i++)
     ind[i] = 1;
   sort (ind.begin(), ind.end());
-  printf("--------- ind ========\n");
-  for (auto e : ind)
-    printf("%d ", e);
-  printf("\n");
-
+  
+  int dist;
+  vector<pair<int, int>> stores;
   do {
-    int dist = 0;
-    vector<pair<int, int>> stores;
-    for (int i=0; i<M; i++) {
+    /*
+       printf("----------- permutation -----------\n");
+       for (auto e : ind)
+       printf("%d ", e);
+       printf("\n");
+       */
+
+    dist = 0;
+    stores.clear();
+    for (int i=0; i<cs.size(); i++) {
       if (ind[i]) {
         stores.push_back(cs[i]);
       }
