@@ -4,19 +4,24 @@
 #include <vector>
 using namespace std;
 
-int N;
-bool map[50][50];
+bool map[100][100];
 
-// generate dragon curve
+void drawDragonCurve(const vector<int>& v)
+{
+  printf("(%d, %d), direction:%d, generation:%d\n", v[0], v[1], v[2], v[3]);
+}
 
 int main() {
-  scanf (" %d", &N);
+  int n;
+  scanf (" %d", &n);
 
-  vector<vector<int>> d(N, vector<int>(4));
-  for (int i=0; i<N; i++)
-    scanf (" %d %d %d %d", &d[i][0], &d[i][1], &d[i][2], &d[i][3]);
+  vector<int> d(4);
+  for (int i=0; i<n; i++) {
+    scanf (" %d %d %d %d", &d[0], &d[1], &d[2], &d[3]);
+    // 1. Draw dragon curve on the map
+    drawDragonCurve(d);
+  }
 
-  // 1. Draw dragon curve on the map
   // 2. Check 4 vertex
 
   return 0;
