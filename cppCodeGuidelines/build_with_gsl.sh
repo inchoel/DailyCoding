@@ -1,9 +1,12 @@
 #!/bin/bash
 
-BIN=test_$1
+FILE=$1
+TARGET=${FILE##*/}
+NAME=${TARGET%%.*}
+BIN=test_$NAME
+
 GSL_LIB_INC=$PWD/gsl/include
 
-echo $BIN
-echo $GSL_LIB_INC
-
+rm -f ./$BIN
 gcc -o $BIN $1 -I$GSL_LIB_INC -lstdc++
+./$BIN
